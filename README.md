@@ -44,6 +44,8 @@ docker-compose up --build
 
 ## Beispielaufrufe
 
+### PDF per Datei
+
 ```bash
 curl -X POST http://localhost:8080/Pdf/fill \
   -F "pdf=@formular.pdf" \
@@ -54,6 +56,20 @@ curl -X POST http://localhost:8080/Pdf/fill \
 ```bash
 curl -X POST http://localhost:8080/Pdf/fields \
   -F "pdf=@formular.pdf"
+```
+
+### PDF per URL
+
+```bash
+curl -X POST http://localhost:8080/Pdf/fill \
+  -F "pdfUrl=https://example.com/form.pdf" \
+  -F 'fields={\"Name\":\"Max Mustermann\"}' \
+  -o filled.pdf
+```
+
+```bash
+curl -X POST http://localhost:8080/Pdf/fields \
+  -F "pdfUrl=https://example.com/form.pdf"
 ```
 
 ## Lizenz
