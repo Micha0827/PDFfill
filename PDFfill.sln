@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFfill", "PDFfill\PDFfill.csproj", "{A6EAE471-7EAA-4B27-BEBD-4A3704B55570}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30B02C4B-7EF1-41ED-A501-D559D7A8020F}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6EAE471-7EAA-4B27-BEBD-4A3704B55570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EAE471-7EAA-4B27-BEBD-4A3704B55570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6EAE471-7EAA-4B27-BEBD-4A3704B55570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6EAE471-7EAA-4B27-BEBD-4A3704B55570}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
