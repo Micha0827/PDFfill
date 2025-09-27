@@ -33,7 +33,16 @@ public class PdfController(IHttpClientFactory httpClientFactory) : ControllerBas
         var fieldValues = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(fields)
                           ?? new Dictionary<string, string>();
 
-        var file = await ValidateAndLoadPdfFileAsync(pdf, pdfUrl);
+        MemoryStream? file;
+        try
+        {
+            file = await ValidateAndLoadPdfFileAsync(pdf, pdfUrl);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
         var filledPdf = await FillFieldsAsync(file, fieldValues, flatten);
         return File(filledPdf, "application/pdf", "filled.pdf");
     }
@@ -41,7 +50,16 @@ public class PdfController(IHttpClientFactory httpClientFactory) : ControllerBas
     [HttpPost("fields")]
     public async Task<IActionResult> ExtractFields([FromForm] IFormFile? pdf, [FromForm] string? pdfUrl)
     {
-        var file = await ValidateAndLoadPdfFileAsync(pdf, pdfUrl);
+        MemoryStream? file;
+        try
+        {
+            file = await ValidateAndLoadPdfFileAsync(pdf, pdfUrl);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
         var fields = GetFieldInfos(file);
         return Ok(fields);
     }
