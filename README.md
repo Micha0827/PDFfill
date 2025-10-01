@@ -1,77 +1,49 @@
 # PDFfill
 
-**Version:** 1.0.0
-
-## Beschreibung
-
-PDFfill ist eine ASP.NET Core Web‑API zum Ausfüllen und Auslesen von PDF‑Formularen.
-
-## Funktionen
-
-- **POST /Pdf/fill**: Füllt Formularfelder in einer PDF (als Datei-Upload oder per URL).  
-- **POST /Pdf/fields**: Liest alle Formularfelder aus einer PDF (als Datei-Upload oder per URL).  
-- Automatischer Download von Google‑Drive‑PDFs  
-- Unterstützung von Text-, Auswahl- und Checkbox‑Feldern  
-- Optionales Flattening (Verschmelzen) der ausgefüllten Felder  
+API zum Füllen und Auslesen von PDF‑Formularen inklusive Unterstützung für passwortgeschützte PDFs.
 
 ## Voraussetzungen
 
-- .NET 9.0 SDK  
-- Docker & Docker Compose  
+- .NET 9 SDK oder höher (TargetFramework: net9.0)
+- iText7 Bibliothek (NuGet-Pakete `itext.kernel.pdf` v9.3.0, `itext.forms` v9.3.0, `itext.bouncy-castle-adapter` v9.3.0)
 
-## Lokale Ausführung
-
-```bash
-dotnet run --project PDFfill/PDFfill.csproj
-```
-
-Die API läuft dann standardmäßig auf `http://localhost:8080`.
-
-## Docker
-
-Build und Start:
+## Installation und Start
 
 ```bash
-docker build -t pdffill:1.0.0 -f PDFfill/Dockerfile .
-docker run -p 8080:8080 pdffill:1.0.0
+dotnet build
+dotnet run --project PDFfill
 ```
 
-## Docker Compose
+Standardmäßig läuft der Server auf `http://localhost:5244`.
 
-```bash
-docker-compose up --build
-```
+## Endpoints
 
-## Beispielaufrufe
+### POST /pdf/fill
 
-### PDF per Datei
+Füllt Felder eines PDF‑Formulars und gibt das ausgefüllte PDF zurück.  
+Bei passwortgeschützten PDFs kann das Öffnungs-Passwort übergeben werden.
 
-```bash
-curl -X POST http://localhost:8080/Pdf/fill \
-  -F "pdf=@formular.pdf" \
-  -F 'fields={\"Name\":\"Max Mustermann\"}' \
-  -o filled.pdf
-```
+**Formulardaten (multipart/form-data):**
 
-```bash
-curl -X POST http://localhost:8080/Pdf/fields \
-  -F "pdf=@formular.pdf"
-```
+| Name     | Typ    | Beschreibung                                                 |
+| -------- | ------ | ------------------------------------------------------------ |
+| pdf      | Datei  | PDF-Datei (multipart/form-data)                              |
+| password | string | Passwort für das Öffnen einer passwortgeschützten PDF (optional) |
+| fields   | string | JSON-String mit Feldnamen und Werten (z. B. `{"Name":"Max"} `) |
+| flatten  | bool   | Formularfelder nach dem Ausfüllen verflachen (optional, Standard: `true`) |
 
-### PDF per URL
+Beispiele befinden sich in der HTTP-Datei unter `PDFfill/PDFfill.http`.
 
-```bash
-curl -X POST http://localhost:8080/Pdf/fill \
-  -F "pdfUrl=https://example.com/form.pdf" \
-  -F 'fields={\"Name\":\"Max Mustermann\"}' \
-  -o filled.pdf
-```
+### POST /pdf/fields
 
-```bash
-curl -X POST http://localhost:8080/Pdf/fields \
-  -F "pdfUrl=https://example.com/form.pdf"
-```
+Lieste alle Formularfelder (Name, Typ, Wert, Optionen, Seite, Position, Flags) als JSON-Liste.  
+Bei passwortgeschützten PDFs kann das Öffnungs-Passwort übergeben werden.
 
-## Lizenz
+**Formulardaten (multipart/form-data):**
 
-MIT
+| Name     | Typ    | Beschreibung                                   |
+| -------- | ------ | ---------------------------------------------- |
+| pdf      | Datei  | PDF-Datei (multipart/form-data)                |
+| password | string | Passwort für das Öffnen einer passwortgeschützten PDF (optional) |
+
+Beispiele befinden sich in der HTTP-Datei unter `PDFfill/PDFfill.http`.

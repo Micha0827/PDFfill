@@ -1,8 +1,8 @@
 ﻿services:
   pdffill:
-    image: pdffill:1.0.0
+    image: pdffill
     build:
       context: .
       dockerfile: PDFfill/Dockerfile
     ports:
-      - "8080:8080"
+      - "5244:5244"

@@ -1,6 +1,37 @@
 @PDFfill_HostAddress = http://localhost:5244
 
-GET {{PDFfill_HostAddress}}/weatherforecast/
-Accept: application/json
+###
+# Beispiel: PDF füllen (passwortgeschützt)
+POST {{PDFfill_HostAddress}}/pdf/fill
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+
+-----BOUNDARY
+Content-Disposition: form-data; name="pdf"; filename="sample.pdf"
+Content-Type: application/pdf
+
+< ./sample.pdf
+-----BOUNDARY
+Content-Disposition: form-data; name="password"
+
+secret123
+-----BOUNDARY
+Content-Disposition: form-data; name="fields"
+
+{"Name":"Max Mustermann","Datum":"2025-10-01"}
+-----BOUNDARY--
 
 ###
+# Beispiel: Formularfelder auslesen (passwortgeschützt)
+POST {{PDFfill_HostAddress}}/pdf/fields
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+
+-----BOUNDARY
+Content-Disposition: form-data; name="pdf"; filename="sample.pdf"
+Content-Type: application/pdf
+
+< ./sample.pdf
+-----BOUNDARY
+Content-Disposition: form-data; name="password"
+
+secret123
+-----BOUNDARY--
